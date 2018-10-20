@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="acb27ad2-1518-4f4d-a444-a9570f57d598" name="test1" url="http://localhost">
+      <webServer id="acb27ad2-1518-4f4d-a444-a9570f57d598" name="test1" url="http://pythonanywhere.com">
         <fileTransfer host="ZedOud@ssh.pythonanywhere.com" port="22" accessType="SFTP">
           <option name="port" value="22" />
         </fileTransfer>
