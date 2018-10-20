@@ -1,29 +1,28 @@
 # Planning - (Future README)
 # First stage: - Getting started
   CSV to Excel
-   + create a CSV of all organizations and their types
-     + match each organziation with a source type
-   + read in organizations into DataFrame - organizations_df
-   + read in Month data into DataFrame - month_data_df
-   + assign each Organization in month_data_df a Source from organizations_df
-   + notify for each organization without source type
-     - automatically make the best guess
-     - update csv with changes
-   - convert weights to dollar
-   - create summary for each source type by dollar
-   - write to file
+   - [x] create a CSV of all organizations and their types
+     - [x] match each organziation with a source type
+   - [x] read in organizations into DataFrame - organizations_df
+   - [x] read in Month data into DataFrame - month_data_df
+   - [x] assign each Organization in month_data_df a Source from organizations_df
+   - [x] notify for each organization without source type
+     - [ ] automatically make the best guess
+     - [ ] update csv with changes
+   - [ ] convert weights to dollar
+   - [ ] create summary for each source type by dollar
+   - [ ] write to file
 
   Github
-   + working repository
-   + upload file
-   + link with IDE
-   + link with pythonanywhere.com
+   - [x] working repository
+   - [x] upload file
+   - [x] link with IDE
+   - [x] link with pythonanywhere.com
 
 # Second Stage: - Did you even graduate? stage
   Private web app - Visualizing given Data
-   - Start with PIE chart comparing inventory sources
-   - Then compare month to month of the data and plot changes over time
-   -
+   - [ ] Start with PIE chart comparing inventory sources
+   - [ ] Then compare month to month of the data and plot changes over time
 
 # Third Stage - complete stage
   Web scraping Food Bank Manager
