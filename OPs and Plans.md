@@ -9,7 +9,7 @@
    - [x] notify for each organization without source type
      - [ ] automatically make the best guess
      - [ ] update csv with changes
-   - [ ] convert weights to dollar
+   - [ ] POSTPONED: convert weights to dollar
    - [ ] create summary for each source type by dollar
    - [ ] write to file
 
@@ -20,15 +20,16 @@
    - [x] link with pythonanywhere.com
 
 # Second Stage: - Did you even graduate? stage
-  Private web app - Visualizing given Data
-   - [ ] Start with PIE chart comparing inventory sources
+   - [ ] Private web app - Visualizing given Data
+   - [x] Start with PIE chart comparing inventory sources
    - [ ] Then compare month to month of the data and plot changes over time
 
 # Third Stage - complete stage
-  Web scraping Food Bank Manager
-  Web server deployment
-  Public web app - Visualization
-  Listing organziations by source 0
+  - [ ] Web scraping Food Bank Manager
+  - [x] Web server deployment
+  - [x] Public web app - Visualization
+  - [ ] Listing organizations by source 0
+  - [ ] Find information about federal food pounds to dollar conversion
 
 # Fourth stage - bonus stage
   metrics:
