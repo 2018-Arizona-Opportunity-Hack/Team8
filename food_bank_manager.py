@@ -62,7 +62,7 @@ def csv_to_dataframe(text):
 def csv_to_dictionary(text, transpose = False):
     ''' This function creates a dictionaru from csv file.
     '''
-    df = convert_csv_to_dataframe(text)
+    df = csv_to_dataframe(text)
     if transpose:
         return df.T.to_dict()
     return df.to_dict()
