@@ -339,12 +339,22 @@ function updateGraphs(Dtype){
 
 function updateEverything(){
   //get new data based on new dates
-  
-  //someAJAXCall(startDate.value,endDate.value);
-  
-  makeGraph(allData[0]);
-  makeGraph2(allData[1]);
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/data?start_date='+starDate.value+'&end_date='+endDate.value);
+	xhr.onload = function(e) {
+		console.log(e);
+		allData[0]=e;
+		if (xhr.status === 200) {
+		  makeGraph(allData[0]);
+		  makeGraph2(allData[1]);
+		}
+		else {
+			alert('Request failed.  Returned status of ' + xhr.status);
+		}
+	};
+	xhr.send();
 };
 
 startDate.addEventListener('change',updateEverything);
 endDate.addEventListener('change',updateEverything);
+updateEverything();
