@@ -84,8 +84,8 @@ def transform_view():
     month = request.args.get('month', None)
     year = request.args.get('year', None)
 
-    donations, entries = file.stream.read().decode("utf-8")
-    result = FBM.create_summary_csv(donations)
+    csv_text = file.stream.read().decode("utf-8")
+    result = FBM.create_summary_csv(csv_text)
 
     response = make_response(result)
     response.headers["Content-Disposition"] = "attachment; filename=result.csv"
