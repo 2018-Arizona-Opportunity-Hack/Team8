@@ -16,11 +16,31 @@ function setDropDown(show){
   graphs[show].style.visibility='visible';
 };//manages showing only the selected graph
 setDropDown(0);
+var typeOfRows=[
+	{
+	  company:2,
+	  date:17,
+	  donation:[22,23],
+	  type:16
+	},
+	{
+	  company:'Company / Organization Name',
+	  date:'Donated On',
+	  donation:['Weight (lbs)','Value (approximate $)'],
+	  type:'source of Donation'
+	}
+];
 var rows={
   company:2,
   date:17,
   donation:[22,23],
   type:16
+};//rows to expect what data from the CSV/JSON
+var rows={
+  company:'Company / Organization Name',
+  date:'Donated On',
+  donation:['Weight (lbs)','Value (approximate $)'],
+  type:'Source Type'
 };//rows to expect what data from the CSV/JSON
 var donationTypes=['lb','$'];
 var donationType=0;
@@ -40,6 +60,7 @@ function sortData(a,b){
 };//sorting function by date
 
 function handleData(e){
+  rows=typeOfRows[0];
   var reader=new FileReader();
   reader.onload=function(event){
     csvFile=
@@ -241,6 +262,7 @@ function makeGraph(data){
 };//makes the graphs relevent to the current month only
 
 function handleData2(e){
+  rows=typeOfRows[0];
   var reader=new FileReader();
   reader.onload=function(event){
     csvFile=
@@ -342,11 +364,12 @@ function updateEverything(){
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', '/data?start_date='+startDate.value+'&end_date='+endDate.value);
 	xhr.onload = function(e) {
-		console.log(e.target.response.replace(/NaN/g, '0'));
-		allData[0]=JSON.parse(e.target.response.replace(/NaN/g, '0'));
+		console.log(e.target.response.replace(/NaN/g,'0'));
 		if (xhr.status === 200) {
+		  rows=typeOfRows[1];
+		  allData[0]=JSON.parse(e.target.response.replace(/NaN/g,'0'));
 		  makeGraph(allData[0]);
-		  makeGraph2(allData[1]);
+		  makeGraph2(allData[1]);	
 		}
 		else {
 			alert('Request failed.  Returned status of ' + xhr.status);
