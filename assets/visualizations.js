@@ -342,8 +342,8 @@ function updateEverything(){
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', '/data?start_date='+startDate.value+'&end_date='+endDate.value);
 	xhr.onload = function(e) {
-		console.log(e);
-		allData[0]=e;
+		console.log(e.target.response.replace(/NaN/g, '0'));
+		allData[0]=JSON.parse(e.target.response.replace(/NaN/g, '0'));
 		if (xhr.status === 200) {
 		  makeGraph(allData[0]);
 		  makeGraph2(allData[1]);

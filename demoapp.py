@@ -70,7 +70,11 @@ def get_data():
 
     search_args = FBM.create_search_args(start_date, end_date)
     donations, entries = FBM.fetch_all_fbm_csv_data(search_args)
-    return jsonify(FBM.csv_to_dictionary(donations, transpose = True))
+    data = FBM.csv_to_dictionary(donations, transpose = True)
+    array = []
+    for k,v in data.items():
+        array.append(v)
+    return jsonify(array)
     
 
 @server.route('/viz')
