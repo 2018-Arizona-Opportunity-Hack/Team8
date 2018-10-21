@@ -47,7 +47,7 @@ app.layout = html.Div(children=[
 @app.callback(dash.dependencies.Output('page-content', 'children'),
               [dash.dependencies.Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == '/page-2':
+    if pathname == '/ui-demo':
         return [
             html.Div([
                 #dcc.Input(id='input-1-state', type='text', value='1,2,3'),
