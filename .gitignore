@@ -1,3 +1,6 @@
 private_logins.txt
 env
 .idea
+fbm.config
+fbm.config.bak
+.gitignore.bak
