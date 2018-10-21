@@ -11,7 +11,7 @@ import food_bank_manager as FBM
 
 server = Flask(__name__)
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets,server=server, url_base_pathname='/dashapp/')
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,server=server, url_base_pathname='/dashapp/', assets_url_path='/assets/')
 app.config['suppress_callback_exceptions']=True
 
 default_data = [{'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'Arizona', 'size': 'State'},
