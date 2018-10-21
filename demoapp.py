@@ -22,15 +22,16 @@ def home_page():
         <html>
             <head>
                 <link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
+                <link rel="stylesheet" type="text/css" href="assets/style.css">
             </head>
             <body>
                 <h1>Food Bank Manager tools homepage.</h1>
                 <br>
                 <a href="/viz">Navigate to Visualization page.</a>
                 <br>
-                <a href="/download">Navigate to Food Bank Manager Scraping Tool.</a>
-                <br>
                 <a href="/csv-for-excel-tool">Navigate to CSV month update for Excel tool.</a>
+                <br><br>
+                <a href="/download">Download Food Bank Manager's last month's CSV.</a>
                 <br>
             </body>
         </html>

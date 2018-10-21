@@ -340,7 +340,7 @@ function updateGraphs(Dtype){
 function updateEverything(){
   //get new data based on new dates
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/data?start_date='+starDate.value+'&end_date='+endDate.value);
+	xhr.open('POST', '/data?start_date='+startDate.value+'&end_date='+endDate.value);
 	xhr.onload = function(e) {
 		console.log(e);
 		allData[0]=e;
