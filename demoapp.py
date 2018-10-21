@@ -11,7 +11,7 @@ import food_bank_manager as FBM
 
 server = Flask(__name__)
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets,server=server, url_base_pathname='/dashapp/', assets_url_path='/assets/')
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,server=server, url_base_pathname='/dashapp/')
 app.config['suppress_callback_exceptions']=True
 
 default_data = [{'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'Arizona', 'size': 'State'},
@@ -41,6 +41,8 @@ app.layout = html.Div(children=[
     dcc.Link('Navigate to CSV month update for Excel tool.', href='/csv-for-excel-tool'),
     html.Br(),
     dcc.Link('Navigate to Food Bank Manager Scraping Tool.', href='/fbm-tool'),
+    html.Br(),
+    dcc.Link('Navigate to Visualization page.', href='/viz'),
 
     # content will be rendered in this element
     html.Div(id='page-content')
@@ -97,7 +99,7 @@ def favicon():
     return send_from_directory('static', 'heart_logo_transparent.png',
                                mimetype='image/vnd.microsoft.icon')
 
-@server.route('/')
+@server.route('/csv-for-excel-tool')
 def form():
     return """
         <html>
@@ -114,6 +116,46 @@ def form():
             </body>
         </html>
     """
+
+@server.route('/viz')
+def viz_page():
+    return """
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Team 8</title>
+      <link rel="stylesheet" type="text/css" href="/assets/style.css">
+      <!-- Plotly.js -->
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+      <script src="https://cdn.rawgit.com/Keyang/node-csvtojson/d41f44aa/browser/csvtojson.min.js"></script>
+    </head>
+      <body>
+      <label>CSV: </label>
+      <input type="file" id="dataLoader" name="dataLoader"><br>
+      <label>CSV prior month:</label>
+      <input type="file" id="dataLoader2" name="dataLoader"><br>
+      <select onClick='setDropDown(this.value)'>
+        <option value=0>Compound Graph</option>
+        <option value=1>Donators Scatterplot</option>
+        <option value=2>Donator Pie Chart</option>
+        <option value=3>Donation Group Pie Chart</option>
+        <option value=4>Donator Monthly Comparison</option>
+        <option value=5>Donator Geographic Map</option>
+      </select>
+      <select onClick='updateGraphs(this.value)'>
+        <option value=0>lb</option>
+        <option value=1>$</option>
+      </select>
+      <div class='graph' id="area" style="width: 100%;"></div>
+      <div class='graph' id="scatter" style="width: 100%;"></div>
+      <div class='graph' id="pie" style="width: 100%;"></div>
+      <div class='graph' id="Dtypes" style="width: 100%;"></div>
+      <div class='graph' id="monthCompare" style="width: 100%;"></div>
+      <div class='graph' id="map" style="width: 100%;"></div>
+      <script src="/assets/vizualizations.js"></script>
+      </body>
+     </html>
+        """
 
 @server.route('/transform', methods=["POST"])
 def transform_view():
