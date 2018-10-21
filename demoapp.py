@@ -119,43 +119,7 @@ def form():
 
 @server.route('/viz')
 def viz_page():
-    return """
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Team 8</title>
-      <link rel="stylesheet" type="text/css" href="/assets/style.css">
-      <!-- Plotly.js -->
-      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-      <script src="https://cdn.rawgit.com/Keyang/node-csvtojson/d41f44aa/browser/csvtojson.min.js"></script>
-    </head>
-      <body>
-      <label>CSV: </label>
-      <input type="file" id="dataLoader" name="dataLoader"><br>
-      <label>CSV prior month:</label>
-      <input type="file" id="dataLoader2" name="dataLoader"><br>
-      <select onClick='setDropDown(this.value)'>
-        <option value=0>Compound Graph</option>
-        <option value=1>Donators Scatterplot</option>
-        <option value=2>Donator Pie Chart</option>
-        <option value=3>Donation Group Pie Chart</option>
-        <option value=4>Donator Monthly Comparison</option>
-        <option value=5>Donator Geographic Map</option>
-      </select>
-      <select onClick='updateGraphs(this.value)'>
-        <option value=0>lb</option>
-        <option value=1>$</option>
-      </select>
-      <div class='graph' id="area" style="width: 100%;"></div>
-      <div class='graph' id="scatter" style="width: 100%;"></div>
-      <div class='graph' id="pie" style="width: 100%;"></div>
-      <div class='graph' id="Dtypes" style="width: 100%;"></div>
-      <div class='graph' id="monthCompare" style="width: 100%;"></div>
-      <div class='graph' id="map" style="width: 100%;"></div>
-      <script src="/assets/vizualizations.js"></script>
-      </body>
-     </html>
-        """
+    return send_from_directory('assets','index.html')
 
 @server.route('/transform', methods=["POST"])
 def transform_view():
