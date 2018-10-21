@@ -97,8 +97,8 @@ def download_summary():
     month = request.args.get('month', None)
     year = request.args.get('year', None)
 
-    csv_text = FBM.fetch_last_fbm_report()
-    result = FBM.create_summary_csv(csv_text)
+    donations, entries = FBM.fetch_last_fbm_report()
+    result = FBM.create_summary_csv(donations)
 
     response = make_response(result)
     response.headers["Content-Disposition"] = "attachment; filename=result.csv"
