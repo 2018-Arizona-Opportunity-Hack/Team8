@@ -174,8 +174,10 @@ function makeGraph(data){
     donorIndexes.push(donor);
   }
   for(var i=data.length-1;i>=0;i--){
-    graphs[donorIndexes.indexOf(data[i][rows.company])].x.push(data[i][rows.date]);
-    graphs[donorIndexes.indexOf(data[i][rows.company])].y.push(data[i][rows.donation[donationType]]);
+	if(donorIndexes.indexOf(data[i][rows.company])>=0){
+		graphs[donorIndexes.indexOf(data[i][rows.company])].x.push(data[i][rows.date]);
+		graphs[donorIndexes.indexOf(data[i][rows.company])].y.push(data[i][rows.donation[donationType]]);
+	}
   }
   var layout = {
     //xaxis: {fixedrange: true},
