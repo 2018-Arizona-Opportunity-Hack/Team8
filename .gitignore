@@ -6,3 +6,4 @@ fbm.config.bak
 .gitignore.bak
 old.py
 testing.py
+__pycache__
