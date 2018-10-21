@@ -4,10 +4,14 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
+from flask import Flask, render_template, request, jsonify,\
+     send_from_directory, abort, redirect,url_for, stream_with_context,\
+     Response, make_response
+import food_bank_manager as FBM
 
+server = Flask(__name__)
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,server=server, url_base_pathname='/dashapp/')
 app.config['suppress_callback_exceptions']=True
 
 default_data = [{'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'Arizona', 'size': 'State'},
@@ -88,6 +92,57 @@ def display_page(pathname):
             html.H3('Default page: You are on page {}'.format(pathname))
         ])
 
+@server.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static', 'heart_logo_transparent.png',
+                               mimetype='image/vnd.microsoft.icon')
+
+@server.route('/')
+def form():
+    return """
+        <html>
+            <head>
+                <link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
+            </head>
+            <body>
+                <h1>Transform a file demo</h1>
+
+                <form action="/transform" method="post" enctype="multipart/form-data">
+                    <input type="file" name="data_file" />
+                    <input type="submit" />
+                </form>
+            </body>
+        </html>
+    """
+
+@server.route('/transform', methods=["POST"])
+def transform_view():
+    file = request.files['data_file']
+    if not file:
+        return "No file"
+
+    file_contents = file.stream.read().decode("utf-8")
+
+    result = transform(file_contents)
+
+    response = make_response(result)
+    response.headers["Content-Disposition"] = "attachment; filename=result.csv"
+    return response
+
+@server.route('/download')
+def download_summary():
+    month = request.args.get('month', None)
+    year = request.args.get('year', None)
+
+    FBM
+
+    csv_text = FBM.fetch_last_fbm_report()
+    result = FBM.create_summary_csv(csv_text)
+
+    response = make_response(result)
+    response.headers["Content-Disposition"] = "attachment; filename=result.csv"
+
+    return response
 
 # Graph Callback
 @app.callback(Output('example-graph', 'figure'),
@@ -98,4 +153,4 @@ def update_output(drop1, multidrop2):
     return figure
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    server.run(debug=True)
