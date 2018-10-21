@@ -290,6 +290,11 @@ def create_fbm_querystring(options_map, **args):
     # return the url encoded string 
     return parse.urlencode(parameters)
 
+def df_to_array(df):
+    result = []
+    for i,row in df.iterrows():
+        result.append(dict(row))
+    return result
 
 def get_guest_history():
     url = '/reports/guests/visits2/export/'

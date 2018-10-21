@@ -73,11 +73,7 @@ def get_data():
 
     df = FBM.csv_to_dataframe(donations)
     df = FBM.map_organization_source_type(df)
-
-    data = FBM.csv_to_dictionary(donations, transpose = True)
-    array = []
-    for k,v in data.items():
-        array.append(v)
+    array = FBM.df_to_array(df)
     return jsonify(array)
     
 
