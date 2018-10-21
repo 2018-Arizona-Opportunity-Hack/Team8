@@ -371,7 +371,9 @@ function updateEverything(){
 		  rows=typeOfRows[1];
 		  allData[0]=JSON.parse(e.target.response.replace(/NaN/g,'0'));
 		  makeGraph(allData[0]);
-		  makeGraph2(allData[1]);	
+		  if(allData[1]){
+		  	makeGraph2(allData[1]);	
+		  }
 		}
 		else {
 			alert('Request failed.  Returned status of ' + xhr.status);
