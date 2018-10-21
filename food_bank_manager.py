@@ -504,3 +504,4 @@ def create_summary_csv(csv_text):
     df = map_organization_source_type(df)
     min_date = datetime.datetime.strptime(min(df['Donated On']), '%Y-%m-%d')
     return process_sumamry(df, min_date.year, min_date.month)
+
