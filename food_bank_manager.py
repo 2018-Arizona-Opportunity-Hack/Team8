@@ -248,6 +248,11 @@ def create_fbm_querystring(options_map, **args):
         datetime.datetime.strptime(end_date, '%Y-%m-%d')
     except:
         raise Exception('Dates must be in YYYY-MM-DD format')
+        
+    field = 'donations.donation_at'
+    for k,v in options_map.items():
+        if 'timeTrack' in v:
+            field = 'timeTrack.track_on'
     
     # Create the base form parameters
     parameters = {
@@ -257,13 +262,13 @@ def create_fbm_querystring(options_map, **args):
         # - for now, it is the donated on start and end date 
         'conditions[1][action]': 'dgte',
         'conditions[1][blockType]': 'item',
-        'conditions[1][field]': 'donations.donation_at',
+        'conditions[1][field]': field,
         'conditions[1][id]': '1',
         'conditions[1][parent]': '',
         'conditions[1][value]': '', #start_date
         'conditions[2][action]': 'dlte',
         'conditions[2][blockType]': 'item',
-        'conditions[2][field]': 'donations.donation_at',
+        'conditions[2][field]': field,
         'conditions[2][id]': '2',
         'conditions[2][parent]': '',
         'conditions[2][value]': '', #end_date
@@ -285,10 +290,33 @@ def create_fbm_querystring(options_map, **args):
     # return the url encoded string 
     return parse.urlencode(parameters)
 
+
 def get_guest_history():
     url = '/reports/guests/visits2/export/'
 
-def fetch_fbm_csv_data(search_args):
+def fetch_csv_data(session, referer, search_args):
+    # Load Team Time Entry Summary
+    response = session.get(referer)
+    soup = bs(response.content, 'lxml')
+    inputs = soup.find_all('input',type='checkbox')
+    # create the options_map to map input arguments to
+    options_map = {}
+    for i in inputs:
+        section = i.find_parent('fieldset').legend.text.split(' ')[0]
+        key = re.sub(r'[^A-z0-9]+',' ',i.parent.text).strip()
+        key = section+'_'+key.replace(' ','_')
+        key = key.lower()
+        options_map[key] = i['name']
+    options_map['start_date'] = 'conditions[1][value]'
+    options_map['end_date'] = 'conditions[2][value]'
+    
+    session.headers.update({'referer':referer})
+    payload = create_fbm_querystring(options_map, **search_args)
+    r = session.post(referer+'csv/', data = payload)
+    return r.text
+
+
+def fetch_all_fbm_csv_data(search_args):
     ''' This function retrieves FBM reports in csv form.
     '''
     global auth
@@ -313,37 +341,19 @@ def fetch_fbm_csv_data(search_args):
         user,passw = auth
 
         # log into Food Bank Manager
-        s.post('https://mcfb.soxbox.co/login/',data=f'username={user}&password={passw}&location=1&action=Login')
+        s.post('https://mcfb.soxbox.co/login/',data='username={}&password={}&location=1&action=Login'.format(user, passw))
         del s.headers['content-length']
 
-        # load the page before requesting csv
-        # TODO - get the presaved reports
-        donations_response = s.get('https://mcfb.soxbox.co/reports/donor/donations/')
-        soup = bs(donations_response.content, 'lxml')
-        inputs = soup.find_all('input',type='checkbox')
+        team_entry_search_args = {'sum_hours_worked': '1',
+                              'start_date': search_args['start_date'],
+                              'end_date': search_args['end_date']}
 
-        # create the options_map to map input arguments to
-        global options_map
-        options_map = {}
-        for i in inputs:
-            section = i.find_parent('fieldset').legend.text.split(' ')[0]
-            key = re.sub(r'[^A-z0-9]+',' ',i.parent.text).strip()
-            key = section+'_'+key.replace(' ','_')
-            key = key.lower()
-            options_map[key] = i['name']
-        options_map['start_date'] = 'conditions[1][value]'
-        options_map['end_date'] = 'conditions[2][value]'
+        entries = fetch_csv_data(s, 'https://mcfb.soxbox.co/reports/team/time-entry-summary/', team_entry_search_args)
+
+        donations = fetch_csv_data(s, 'https://mcfb.soxbox.co/reports/donor/donations/', search_args)
+    return donations, entries
         
-        # requesting csv
-        s.headers.update({'referer':'https://mcfb.soxbox.co/reports/donor/donations/?template=3'})
-        payload = create_fbm_querystring(options_map, **search_args)
-        r = s.post('https://mcfb.soxbox.co/reports/donor/donations/csv/',
-                   data = payload)
 
-        'https://mcfb.soxbox.co/reports/team/time-entry-summary/'
-        r = s.post('https://mcfb.soxbox.co/reports/donor/donations/csv/',
-                   data = payload)
-    return r.text
 
 def fetch_fbm_report_by_month(year, month, search_args=None):
     ''' This function fetches the FBM report for the given year and month.
@@ -367,9 +377,9 @@ def fetch_fbm_report_by_month(year, month, search_args=None):
     # determine the total number of days in the given month
     total_days = calendar.monthrange(year,month)[1]
     search_args.update({ 
-        'end_date': '{}-{d:02}-{d:02}'.format(year, month, total_days),
-        'start_date': '{}-{d:02}-01'.format(year, month) })
-    return fetch_fbm_csv_data(search_args)
+        'end_date': '{:04}-{:02}-{:02}'.format(year, month, total_days),
+        'start_date': '{:04}-{:02}-01'.format(year, month) })
+    return fetch_all_fbm_csv_data(search_args)
 
 def fetch_last_fbm_report():
     ''' This function fetches the last month of FBM data
