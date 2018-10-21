@@ -9,19 +9,19 @@
   <script src="https://cdn.rawgit.com/Keyang/node-csvtojson/d41f44aa/browser/csvtojson.min.js"></script>
 </head>
   <body>
-<!--
+
   <label>CSV: </label>
   <input type="file" id="dataLoader" name="dataLoader"><br>
   <label>CSV prior month:</label>
   <input type="file" id="dataLoader2" name="dataLoader"><br>
--->
+
   <input type='date' id='startDate'><input type='date' id='endDate'><br>
   <select onClick='setDropDown(this.value)'>
     <option value=0>Compound Graph</option>
     <option value=1>Donators Scatterplot</option>
     <option value=2>Donator Pie Chart</option>
     <option value=3>Donation Group Pie Chart</option>
-    <option value=4>Donator Monthly Comparison</option>
+    <option value=4>Donator Comparison</option>
     <option value=5>Donator Geographic Map</option>
   </select>
   <select onClick='updateGraphs(this.value)'>

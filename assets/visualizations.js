@@ -277,13 +277,13 @@ function makeGraph2(data){
   var thisMonth = {
     x: [],
     y: [],
-    name: 'this month ('+donationTypes[donationType]+')',
+    name: 'current period ('+donationTypes[donationType]+')',
     type: 'bar'
   };
   var lastMonth = {
     x: [],
     y: [],
-    name: 'last month ('+donationTypes[donationType]+')',
+    name: 'last period ('+donationTypes[donationType]+')',
     type: 'bar'
   };
   
