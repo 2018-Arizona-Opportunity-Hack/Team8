@@ -27,7 +27,7 @@ var typeOfRows=[
 	  company:'Company / Organization Name',
 	  date:'Donated On',
 	  donation:['Weight (lbs)','Value (approximate $)'],
-	  type:'source of Donation'
+	  type:'Source Type'
 	}
 ];
 var rows={
