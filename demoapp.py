@@ -121,20 +121,21 @@ def transform_view():
     if not file:
         return "No file"
 
-    file_contents = file.stream.read().decode("utf-8")
+    month = request.args.get('month', None)
+    year = request.args.get('year', None)
 
-    result = transform(file_contents)
+    csv_text = file.stream.read().decode("utf-8")
+    result = FBM.create_summary_csv(csv_text)
 
     response = make_response(result)
     response.headers["Content-Disposition"] = "attachment; filename=result.csv"
+
     return response
 
 @server.route('/download')
 def download_summary():
     month = request.args.get('month', None)
     year = request.args.get('year', None)
-
-    FBM
 
     csv_text = FBM.fetch_last_fbm_report()
     result = FBM.create_summary_csv(csv_text)
