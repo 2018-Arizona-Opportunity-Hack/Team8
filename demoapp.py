@@ -64,12 +64,13 @@ def form():
 def get_data():
     if request.method != 'POST':
         return 'Bad Request'
-    start_date = request.json['start_date']
-    end_date = request.json['end_date']
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
 
     search_args = FBM.create_search_args(start_date, end_date)
     donations, entries = FBM.fetch_all_fbm_csv_data(search_args)
-    return donations
+    return csv_to_dictionary(donations, transpose = True)
+    
 
 @server.route('/viz')
 def viz_page():
