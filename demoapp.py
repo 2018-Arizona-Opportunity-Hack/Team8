@@ -48,6 +48,26 @@ app.layout = html.Div(children=[
     html.Div(id='page-content')
 ])
 
+@server.route('/')
+def home_page():
+    return """
+        <html>
+            <head>
+                <link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
+            </head>
+            <body>
+                <h1>Food Bank Manager tools homepage.</h1>
+                <br>
+                <a href="/viz">Navigate to Visualization page.</a>
+                <br>
+                <a href="/download">Navigate to Food Bank Manager Scraping Tool.</a>
+                <br>
+                <a href="/csv-for-excel-tool">Navigate to CSV month update for Excel tool.</a>
+                <br>
+            </body>
+        </html>
+    """
+
 
 # Link Callback
 @app.callback(dash.dependencies.Output('page-content', 'children'),
