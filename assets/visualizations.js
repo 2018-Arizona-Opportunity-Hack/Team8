@@ -186,7 +186,7 @@ function makeGraph(data){
     height:700,
   };
   Plotly.newPlot('scatter',graphs,layout, {responsive: true});
-  /*pie*/
+  /*pies*/
   var thePie = [{
     values: [],
     labels: [],
